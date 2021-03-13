@@ -7,7 +7,7 @@ const MainPage = () =>{
 
     const [posts, setPosts] = useState([]);
     const [newDate, setNewDate] = useState(['http://146.185.154.90:8000/messages?datetime=2021-01-18T16:40:27.935Z']);
-    const url = ' http://146.185.154.90:8000/messages';
+    const url = ' http://localhost:8000/messages';
             
     const GetDataFromApi = async () =>{
         const response = await fetch(url);
