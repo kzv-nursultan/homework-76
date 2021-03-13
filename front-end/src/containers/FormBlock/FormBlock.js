@@ -26,12 +26,11 @@ const FormBlock = props => {
         const data = new URLSearchParams();
         data.set('message', message);
         data.set('author', author);
-
         const response = await fetch(props.url, {
         method: 'post',
         body: data,
         });
-        console.log(response);
+        console.log(response.json());
     };
 
     const modalChangeName = e => {

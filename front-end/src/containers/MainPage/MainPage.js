@@ -13,6 +13,7 @@ const MainPage = () =>{
         const response = await fetch(url);
         if(response.ok) {
             const newPosts = await response.json();
+            console.log(newPosts);
             setPosts(newPosts);
         };
     };
@@ -22,19 +23,18 @@ const MainPage = () =>{
     },[]);
 
 
-    useEffect(()=>{
-        setInterval(async() => {
-                const request = await fetch(newDate);
-                const newMessages = await request.json();
-                if(newMessages.length > 0) {
-                    const newDateCopy = newDate;
-                    newDateCopy[0] = 'http://146.185.154.90:8000/messages?datetime=' + 
-                                    (newMessages[newMessages.length-1].datetime)
-                    setNewDate(newDateCopy);
-                    //GetDataFromApi();//<= don't do that
-                };
-        }, 4000);
-    },[newDate]);
+    // useEffect(()=>{
+    //     setInterval(async() => {
+    //             const request = await fetch(newDate);
+    //             const newMessages = await request.json();
+    //             if(newMessages.length > 0) {
+    //                 const newDateCopy = newDate;
+    //                 newDateCopy[0] = 'http://localhost:8000/messages?datetime=' + 
+    //                                 (newMessages[newMessages.length-1].datetime)
+    //                 setNewDate(newDateCopy);
+    //             };
+    //     }, 4000);
+    // },[newDate]);
 
 
     return(

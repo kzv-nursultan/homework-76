@@ -10,7 +10,6 @@ module.exports = {
         try {
             const fileData = fs.readFile(filename);
             data = JSON.parse(fileData);
-
         } catch {
             data = [];
         }
@@ -21,10 +20,9 @@ module.exports = {
     },
 
     addItem(item) {
-        item.id = nanoid();
-        item.date = new Date();
         console.log(item);
         data.push(item);
+        this.save();
     },
     save() {
         fs.writeFileSync(filename, JSON.stringify(data));
