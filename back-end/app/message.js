@@ -6,27 +6,21 @@ router.get('/', (req,res)=>{
     const datetime = req.query.datetime;
     const date = new Date(datetime);
     if(datetime) {
-
         if(isNaN(date.getDate())) {
-            res.send('you inputted wrong date');
+            res.status(400).send('Something went wrong, check your date format.');
         } else {
             const data = fileDb.getItems();
-            const now = new Date().toISOString();
             const arrayOfDates = [];
             data.map(object=>{
                 if(object.date>datetime) {
                     arrayOfDates.push(object);
-                }
-            }
-            );
+                };
+            });
             res.send(arrayOfDates);
-        }
-
+        };
     } else {
-
         const data = fileDb.getItems();
         res.send(data);
-
     };
 });
 

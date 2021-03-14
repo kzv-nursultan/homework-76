@@ -16,17 +16,20 @@ module.exports = {
     },
 
     getItems() {
-        this.init();
         return data;
     },
 
     addItem(item) {
         item.id = nanoid();
         item.date = new Date();
+        if(data.length >= 30) {
+            const difference = (data.length)-29;
+            data.splice(0, difference);
+        };
         data.push(item);
         this.save();
     },
     save() {
-        fs.writeFileSync(filename, JSON.stringify(data, 2));
+        fs.writeFileSync(filename, JSON.stringify(data));
     }
 };

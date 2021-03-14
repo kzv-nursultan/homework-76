@@ -27,7 +27,6 @@ const MainPage = () =>{
         setInterval(async() => {
             const response = await axios.get(newDate);
             if (response.data) {
-                console.log(response.data);
                 if (response.data.length>0) {
                     const newDateCopy = newDate;
                     newDateCopy[0] = 'http://localhost:8000/messages?datetime='+
