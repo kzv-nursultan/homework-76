@@ -8,23 +8,25 @@ let data = [];
 module.exports = {
     init() {
         try {
-            const fileData = fs.readFile(filename);
+            const fileData = fs.readFileSync(filename);
             data = JSON.parse(fileData);
         } catch {
             data = [];
-        }
+        };
     },
 
     getItems() {
+        this.init();
         return data;
     },
 
     addItem(item) {
-        console.log(item);
+        item.id = nanoid();
+        item.date = new Date();
         data.push(item);
         this.save();
     },
     save() {
-        fs.writeFileSync(filename, JSON.stringify(data));
+        fs.writeFileSync(filename, JSON.stringify(data, 2));
     }
 };

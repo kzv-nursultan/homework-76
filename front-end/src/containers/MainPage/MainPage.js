@@ -1,4 +1,5 @@
 import React, {useState, useEffect} from 'react';
+import axios from 'axios';
 import PostHandler from '../../components/PostHandler/PostHandler';
 import FormBlock from '../FormBlock/FormBlock';
 
@@ -6,14 +7,13 @@ import FormBlock from '../FormBlock/FormBlock';
 const MainPage = () =>{
 
     const [posts, setPosts] = useState([]);
-    const [newDate, setNewDate] = useState(['http://146.185.154.90:8000/messages?datetime=2021-01-18T16:40:27.935Z']);
+    const [newDate, setNewDate] = useState(['http://localhost:8000/messages?datetime=2021-03-14T04:08:33.163Z']);
     const url = ' http://localhost:8000/messages';
             
     const GetDataFromApi = async () =>{
         const response = await fetch(url);
         if(response.ok) {
             const newPosts = await response.json();
-            console.log(newPosts);
             setPosts(newPosts);
         };
     };
@@ -23,18 +23,21 @@ const MainPage = () =>{
     },[]);
 
 
-    // useEffect(()=>{
-    //     setInterval(async() => {
-    //             const request = await fetch(newDate);
-    //             const newMessages = await request.json();
-    //             if(newMessages.length > 0) {
-    //                 const newDateCopy = newDate;
-    //                 newDateCopy[0] = 'http://localhost:8000/messages?datetime=' + 
-    //                                 (newMessages[newMessages.length-1].datetime)
-    //                 setNewDate(newDateCopy);
-    //             };
-    //     }, 4000);
-    // },[newDate]);
+    useEffect(()=>{
+        setInterval(async() => {
+            const response = await axios.get(newDate);
+            if (response.data) {
+                console.log(response.data);
+                if (response.data.length>0) {
+                    const newDateCopy = newDate;
+                    newDateCopy[0] = 'http://localhost:8000/messages?datetime='+
+                                    (response.data[response.data.length-1].date);
+                    setNewDate(newDateCopy);
+                    GetDataFromApi();
+                };
+            };
+        }, 4000);
+    },[newDate]);
 
 
     return(
@@ -43,7 +46,7 @@ const MainPage = () =>{
         url={url}/>
         {posts.map(post=>(
           <PostHandler 
-          key = {post._id}
+          key = {post.id}
           author = {post.author}
           message = {post.message}
           date = {post.datetime}/>
